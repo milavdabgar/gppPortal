@@ -5,7 +5,7 @@ from app.models import User
 
 
 class EditProfileForm(FlaskForm):
-    name = StringField("Name", validators=[DataRequired()])
+    full_name = StringField("Name", validators=[DataRequired()])
     user_name = StringField("Username", validators=[DataRequired()])
     email = StringField("Email", validators=[DataRequired(), Email()])
     contact = StringField("contact", validators=[DataRequired()])

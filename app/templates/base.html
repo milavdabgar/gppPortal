@@ -38,7 +38,7 @@
                     {% else %}
                         <li>
                             {# <a href="{{ url_for('main.user', user_name=current_user.user_name) }}">User</a> #}
-                            <a href="{{ url_for("main.index") }}">{{ 'User' }}</a>
+                            <a href="{{ url_for("main.edit_profile") }}">{{ 'User' }}</a>
                         </li>
                         <li>
                             <a href="{{ url_for("auth.logout") }}">{{ 'Logout' }}</a>

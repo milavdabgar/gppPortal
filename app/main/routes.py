@@ -19,7 +19,7 @@ def index():
 def edit_profile():
     form = EditProfileForm(current_user.user_name)
     if form.validate_on_submit():
-        current_user.name = form.name.data
+        current_user.full_name = form.full_name.data
         current_user.user_name = form.user_name.data
         current_user.email = form.email.data
         current_user.contact = form.contact.data
@@ -27,8 +27,8 @@ def edit_profile():
         flash("Your changes have been saved.")
         return redirect(url_for("main.edit_profile"))
     elif request.method == "GET":
-        form.name.data = current_user.name
+        form.full_name.data = current_user.full_name
         form.user_name.data = current_user.user_name
         form.email.data = current_user.email
         form.contact.data = current_user.contact
-    return render_template("edit_profile.html", title="Edit Profile", form=form)
+    return render_template("main/edit_profile.html", title="Edit Profile", form=form)
