@@ -13,6 +13,21 @@ class User(UserMixin, db.Model):
     contact = db.Column(db.String(15), unique=True)
     password_hash = db.Column(db.String(500))
     
+    surname = db.Column(db.String(100))
+    name = db.Column(db.String(100))
+    fatherName = db.Column(db.String(100))
+    category = db.Column(db.String(100))
+    gender = db.Column(db.String(100))
+    dob = db.Column(db.String(100))
+    address = db.Column(db.String(100))
+    city = db.Column(db.String(100))
+    state = db.Column(db.String(100))
+    country = db.Column(db.String(100))
+    pincode = db.Column(db.String(100))
+    bloodGroup = db.Column(db.String(100))
+    parentNumber = db.Column(db.String(100))
+    
+    
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)
 

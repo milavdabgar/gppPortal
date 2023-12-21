@@ -9,6 +9,7 @@ class EditProfileForm(FlaskForm):
     user_name = StringField("Username", validators=[DataRequired()])
     email = StringField("Email", validators=[DataRequired(), Email()])
     contact = StringField("contact", validators=[DataRequired()])
+    surname = StringField("Surname", validators=[DataRequired()])
     submit = SubmitField("Submit")
 
     def __init__(self, original_username, *args, **kwargs):
@@ -20,7 +21,6 @@ class EditProfileForm(FlaskForm):
             user = User.query.filter_by(user_name=self.user_name.data).first()
             if user is not None:
                 raise ValidationError("Please use a different user_name.")
-
 
 class EmptyForm(FlaskForm):
     submit = SubmitField("Submit")
