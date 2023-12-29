@@ -2,16 +2,11 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, SelectField, DateField, DateTimeField
 from wtforms.validators import ValidationError, DataRequired, Email
 from app.models import User
-# from datetime import datetime
-
-# dob_str = "2022-01-01"  # Replace with the actual value of dob
-
-# # Convert dob_str to a datetime.date object
-# dob_date = datetime.strptime(dob_str, "%Y-%m-%d").date()
 
 
 class EditProfileForm(FlaskForm):
     first_name = StringField("First Name", validators=[DataRequired()])
+    middle_name = StringField("Middle Name", validators=[DataRequired()])
     last_name = StringField("Last Name", validators=[DataRequired()])
     user_name = StringField("User Name", validators=[DataRequired()])
     email = StringField("Email", validators=[DataRequired(), Email()])
