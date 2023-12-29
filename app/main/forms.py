@@ -1,15 +1,26 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField
+from wtforms import StringField, SubmitField, SelectField, DateField, DateTimeField
 from wtforms.validators import ValidationError, DataRequired, Email
 from app.models import User
+# from datetime import datetime
+
+# dob_str = "2022-01-01"  # Replace with the actual value of dob
+
+# # Convert dob_str to a datetime.date object
+# dob_date = datetime.strptime(dob_str, "%Y-%m-%d").date()
 
 
 class EditProfileForm(FlaskForm):
-    full_name = StringField("Name", validators=[DataRequired()])
-    user_name = StringField("Username", validators=[DataRequired()])
+    first_name = StringField("First Name", validators=[DataRequired()])
+    last_name = StringField("Last Name", validators=[DataRequired()])
+    user_name = StringField("User Name", validators=[DataRequired()])
     email = StringField("Email", validators=[DataRequired(), Email()])
-    contact = StringField("contact", validators=[DataRequired()])
-    surname = StringField("Surname", validators=[DataRequired()])
+    contact = StringField("Contact", validators=[DataRequired()])
+    gender = SelectField("Gender", choices=[("male", "Male"), ("female", "Female"), ("other", "Other")])
+    dob = StringField("Date of Birth")
+    category = SelectField("Category", choices=[("general", "General"), ("sebc", "SEBC"), ("sc", "SC"), ("st", "ST")])
+    blood_group = SelectField("Blood Group", choices=[("A+", "A+"), ("A-", "A-"), ("B+", "B+"), ("B-", "B-"), ("AB+", "AB+"), ("AB-", "AB-"), ("O+", "O+"), ("O-", "O-")])
+
     submit = SubmitField("Submit")
 
     def __init__(self, original_username, *args, **kwargs):
@@ -21,6 +32,3 @@ class EditProfileForm(FlaskForm):
             user = User.query.filter_by(user_name=self.user_name.data).first()
             if user is not None:
                 raise ValidationError("Please use a different user_name.")
-
-class EmptyForm(FlaskForm):
-    submit = SubmitField("Submit")

@@ -5,14 +5,15 @@ from app.models import User
 
 
 class LoginForm(FlaskForm):
-    user_name = StringField("Username", validators=[DataRequired()])
+    user_name = StringField("User Name", validators=[DataRequired()])
     password = PasswordField("Password", validators=[DataRequired()])
     remember_me = BooleanField("Remember Me")
     submit = SubmitField("Sign In")
 
 
 class RegistrationForm(FlaskForm):
-    full_name = StringField("Full Name", validators=[DataRequired()])
+    first_name = StringField("First Name", validators=[DataRequired()])
+    last_name = StringField("Last Name", validators=[DataRequired()])
     user_name = StringField("Username", validators=[DataRequired()])
     email = StringField("Email", validators=[DataRequired(), Email()])
     contact = StringField("Contact", validators=[DataRequired()])
