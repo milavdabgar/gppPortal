@@ -57,14 +57,14 @@ class Student(User):
     parent_contact = db.Column(db.String(100))
     parent_email = db.Column(db.String(100))
     
-    
-
-
 
 class Faculty(User):
     __tablename__ = "Faculty"
 
     id = db.Column(db.Integer, db.ForeignKey('User.id'), primary_key=True)
+    department = db.Column(db.String(100))
+    designation = db.Column(db.String(100))
+    
     # additional faculty-specific fields can be added here    
 @login.user_loader
 def load_user(id):
