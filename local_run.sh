@@ -4,7 +4,7 @@ echo "Welcome to to the setup. This will setup the local virtual env."
 echo "And then it will install all the required python libraries."
 echo "You can rerun this without any issues."
 echo "----------------------------------------------------------------------"
-if [ -d ".venv" ];
+if [ -d ".pyvenv" ];
 then
     echo "Enabling virtual env"
 else
@@ -13,7 +13,7 @@ else
 fi
 
 # Activate virtual env
-. .venv/bin/activate
-export ENV=development
+. .pyvenv/bin/activate
+export ENV=LocalDevelopmentConfig
 python main.py
 deactivate

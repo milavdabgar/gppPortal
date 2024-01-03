@@ -1,7 +1,17 @@
 from app import db, login
-from flask_login import UserMixin
+# from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
+from flask_security import UserMixin, RoleMixin
 
+roles_users = db.Table('roles_users',
+    db.Column('user_id', db.Integer(), db.ForeignKey('user.id')),
+    db.Column('role_id', db.Integer(), db.ForeignKey('role.id'))
+)
+
+class Role(db.Model, RoleMixin):
+    id = db.Column(db.Integer(), primary_key=True)
+    name = db.Column(db.String(80), unique=True)
+    description = db.Column(db.String(255))
 
 class User(UserMixin, db.Model):
     __tablename__ = "User"
@@ -12,6 +22,7 @@ class User(UserMixin, db.Model):
     email = db.Column(db.String(100), index=True, unique=True, nullable=False)
     contact = db.Column(db.String(15), unique=True, nullable=False)
     password_hash = db.Column(db.String(500))
+    roles = db.relationship('Role', secondary=roles_users, backref=db.backref('users', lazy='dynamic'))
     
     first_name = db.Column(db.String(100), nullable=False)
     last_name = db.Column(db.String(100), nullable=False)
@@ -64,8 +75,8 @@ class Faculty(User):
     id = db.Column(db.Integer, db.ForeignKey('User.id'), primary_key=True)
     department = db.Column(db.String(100))
     designation = db.Column(db.String(100))
-    
+
     # additional faculty-specific fields can be added here    
-@login.user_loader
-def load_user(id):
-    return User.query.get(int(id))
+# @login.user_loader
+# def load_user(id):
+#     return User.query.get(int(id))
