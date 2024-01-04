@@ -1,6 +1,7 @@
 from flask import render_template, flash, redirect, url_for, request
 from flask_login import current_user, login_required
-from app import db
+# from app import db
+from app.database import db
 from app.main.forms import EditProfileForm
 from app.main import bp
 
@@ -17,7 +18,7 @@ def index():
 @bp.route("/edit_profile", methods=["GET", "POST"])
 @login_required
 def edit_profile():
-    form = EditProfileForm(current_user.user_name)
+    form = EditProfileForm(current_user.username)
     if form.validate_on_submit():
         for attribute in form:
             if attribute.name != 'submit' and attribute.name != 'csrf_token':

@@ -1,12 +1,14 @@
 from flask import render_template, redirect, url_for, flash
 from flask_login import login_user, logout_user, current_user
-from app import db
+# from app import db
+from app.database import db
 from app.auth import bp
 from app.auth.forms import (
     LoginForm,
     RegistrationForm,
 )
 from app.models import User
+from app import security
 
 
 @bp.route("/login", methods=["GET", "POST"])
@@ -15,9 +17,9 @@ def login():
         return redirect(url_for("main.index"))
     form = LoginForm()
     if form.validate_on_submit():
-        user = User.query.filter_by(user_name=form.user_name.data).first()
+        user = User.query.filter_by(username=form.username.data).first()
         if user is None or not user.check_password(form.password.data):
-            flash("Invalid user_name or password")
+            flash("Invalid username or password")
             return redirect(url_for("auth.login"))
         login_user(user, remember=form.remember_me.data)
         return redirect(url_for("main.index"))
@@ -36,13 +38,17 @@ def register():
         return redirect(url_for("main.index"))
     form = RegistrationForm()
     if form.validate_on_submit():
-        # user = User(user_name=form.user_name.data, email=form.email.data)
+        # user = User(username=form.username.data, email=form.email.data)
+        # security.user_datastore.create_user(
+        #     email=form.email.data,
+        #     password=form.password.data
+        # )
         user = User(
             first_name=form.first_name.data,
             last_name=form.last_name.data,
-            user_name=form.user_name.data,
+            username=form.username.data,
             email=form.email.data,
-            contact=form.contact.data,
+            contact=form.contact.data
         )
         user.set_password(form.password.data)
         db.session.add(user)

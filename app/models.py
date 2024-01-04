@@ -1,28 +1,36 @@
-from app import db, login
+# from app import db, login
+# from app import db
+from app.database import db
 # from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_security import UserMixin, RoleMixin
+# from flask_security.models import fsqla_v2 as fsqla
 
 roles_users = db.Table('roles_users',
-    db.Column('user_id', db.Integer(), db.ForeignKey('user.id')),
-    db.Column('role_id', db.Integer(), db.ForeignKey('role.id'))
+    db.Column('user_id', db.Integer(), db.ForeignKey('User.id')),
+    db.Column('role_id', db.Integer(), db.ForeignKey('Role.id'))
 )
 
 class Role(db.Model, RoleMixin):
-    id = db.Column(db.Integer(), primary_key=True)
+    __tablename__ = "Role"
+    id = db.Column(db.Integer(), primary_key=True, autoincrement=True)
     name = db.Column(db.String(80), unique=True)
     description = db.Column(db.String(255))
 
-class User(UserMixin, db.Model):
+class User(db.Model, UserMixin):
     __tablename__ = "User"
 
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    roles = db.relationship('Role', secondary=roles_users)
+    fs_uniquifier = db.Column(db.String(255), unique=True, nullable=False)
+    # fs_uniquifier = db.Column(db.String(255), unique=True)
+    active = db.Column(db.Boolean())
 
-    user_name = db.Column(db.String(50), index=True, unique=True, nullable=False)
+    username = db.Column(db.String(50), index=True, unique=True, nullable=False)
     email = db.Column(db.String(100), index=True, unique=True, nullable=False)
     contact = db.Column(db.String(15), unique=True, nullable=False)
-    password_hash = db.Column(db.String(500))
-    roles = db.relationship('Role', secondary=roles_users, backref=db.backref('users', lazy='dynamic'))
+    password = db.Column(db.String(500))
+
     
     first_name = db.Column(db.String(100), nullable=False)
     last_name = db.Column(db.String(100), nullable=False)
@@ -42,10 +50,10 @@ class User(UserMixin, db.Model):
 
    
     def set_password(self, password):
-        self.password_hash = generate_password_hash(password)
+        self.password = generate_password_hash(password)
 
     def check_password(self, password):
-        return check_password_hash(self.password_hash, password)
+        return check_password_hash(self.password, password)
 
 class Student(User):
     __tablename__ = "Student"

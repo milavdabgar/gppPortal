@@ -8,7 +8,7 @@ class EditProfileForm(FlaskForm):
     first_name = StringField("First Name", validators=[DataRequired()])
     middle_name = StringField("Middle Name", validators=[DataRequired()])
     last_name = StringField("Last Name", validators=[DataRequired()])
-    user_name = StringField("User Name", validators=[DataRequired()])
+    username = StringField("User Name", validators=[DataRequired()])
     email = StringField("Email", validators=[DataRequired(), Email()])
     contact = StringField("Contact", validators=[DataRequired()])
     gender = SelectField("Gender", choices=[("male", "Male"), ("female", "Female"), ("other", "Other")])
@@ -22,8 +22,8 @@ class EditProfileForm(FlaskForm):
         super(EditProfileForm, self).__init__(*args, **kwargs)
         self.original_username = original_username
 
-    def validate_username(self, user_name):
-        if user_name.data != self.original_username:
-            user = User.query.filter_by(user_name=self.user_name.data).first()
+    def validate_username(self, username):
+        if username.data != self.original_username:
+            user = User.query.filter_by(username=self.username.data).first()
             if user is not None:
-                raise ValidationError("Please use a different user_name.")
+                raise ValidationError("Please use a different username.")

@@ -11,6 +11,8 @@ class Config:
     SQLALCHEMY_DATABASE_URI = None
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SECRET_KEY = os.environ.get("SECRET_KEY") or "you-will-never-guess"
+    SECURITY_PASSWORD_SALT = os.environ.get("SECURITY_PASSWORD_SALT") or "you-will-never-guess"
+    
     
 class LocalDevelopmentConfig(Config):
     SQLITE_DB_DIR = os.path.join(parentdir, "instance")
