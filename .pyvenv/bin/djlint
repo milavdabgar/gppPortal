@@ -1,4 +1,4 @@
-#!/home/milav/Codes/gppPortal/.pyvenv/bin/python
+#!/home/milav/code/gppPortal/.pyvenv/bin/python
 # -*- coding: utf-8 -*-
 import re
 import sys

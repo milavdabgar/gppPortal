@@ -11,10 +11,27 @@ class EditProfileForm(FlaskForm):
     username = StringField("User Name", validators=[DataRequired()])
     email = StringField("Email", validators=[DataRequired(), Email()])
     contact = StringField("Contact", validators=[DataRequired()])
-    gender = SelectField("Gender", choices=[("male", "Male"), ("female", "Female"), ("other", "Other")])
+    gender = SelectField(
+        "Gender", choices=[("male", "Male"), ("female", "Female"), ("other", "Other")]
+    )
     dob = StringField("Date of Birth")
-    category = SelectField("Category", choices=[("general", "General"), ("sebc", "SEBC"), ("sc", "SC"), ("st", "ST")])
-    blood_group = SelectField("Blood Group", choices=[("A+", "A+"), ("A-", "A-"), ("B+", "B+"), ("B-", "B-"), ("AB+", "AB+"), ("AB-", "AB-"), ("O+", "O+"), ("O-", "O-")])
+    category = SelectField(
+        "Category",
+        choices=[("general", "General"), ("sebc", "SEBC"), ("sc", "SC"), ("st", "ST")],
+    )
+    blood_group = SelectField(
+        "Blood Group",
+        choices=[
+            ("A+", "A+"),
+            ("A-", "A-"),
+            ("B+", "B+"),
+            ("B-", "B-"),
+            ("AB+", "AB+"),
+            ("AB-", "AB-"),
+            ("O+", "O+"),
+            ("O-", "O-"),
+        ],
+    )
 
     submit = SubmitField("Submit")
 
