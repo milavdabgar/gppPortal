@@ -1,30 +1,25 @@
-from flask import render_template, redirect, url_for, flash
-from flask_login import login_user, logout_user, current_user
-# from app import db
-from app.database import db
+from app.models import db
 from app.auth import bp
-from app.auth.forms import (
-    LoginForm,
-    RegistrationForm,
-)
-from app.models import User
-from app import security
 
+from flask import redirect, render_template, flash, url_for
+from app.sec import datastore
+from flask_security import current_user, logout_user, login_user, hash_password
+from flask_security.forms import LoginForm, RegisterForm
 
 @bp.route("/login", methods=["GET", "POST"])
+# @login_required
 def login():
     if current_user.is_authenticated:
         return redirect(url_for("main.index"))
     form = LoginForm()
     if form.validate_on_submit():
-        user = User.query.filter_by(username=form.username.data).first()
+        user = datastore.find_user(email=form.email.data)
         if user is None or not user.check_password(form.password.data):
             flash("Invalid username or password")
             return redirect(url_for("auth.login"))
-        login_user(user, remember=form.remember_me.data)
+        login_user(user, remember=form.remember.data)
         return redirect(url_for("main.index"))
     return render_template("auth/login.html", title="Sign In", form=form)
-
 
 @bp.route("/logout")
 def logout():
@@ -36,22 +31,10 @@ def logout():
 def register():
     if current_user.is_authenticated:
         return redirect(url_for("main.index"))
-    form = RegistrationForm()
+    form = RegisterForm()
     if form.validate_on_submit():
-        # user = User(username=form.username.data, email=form.email.data)
-        # security.user_datastore.create_user(
-        #     email=form.email.data,
-        #     password=form.password.data
-        # )
-        user = User(
-            first_name=form.first_name.data,
-            last_name=form.last_name.data,
-            username=form.username.data,
-            email=form.email.data,
-            contact=form.contact.data
-        )
-        user.set_password(form.password.data)
-        db.session.add(user)
+        if not datastore.find_user(email=form.email.data):
+            datastore.create_user(email=form.email.data, password=hash_password(form.password.data))
         db.session.commit()
         flash("Congratulations, you are now a registered user!")
         return redirect(url_for("auth.login"))

@@ -1,39 +1,33 @@
-# from app import db, login
-# from app import db
-from app.database import db
-# from flask_login import UserMixin
-from werkzeug.security import generate_password_hash, check_password_hash
+from flask_security import hash_password, verify_password
+from flask_sqlalchemy import SQLAlchemy
 from flask_security import UserMixin, RoleMixin
-# from flask_security.models import fsqla_v2 as fsqla
+db = SQLAlchemy()
 
-roles_users = db.Table('roles_users',
-    db.Column('user_id', db.Integer(), db.ForeignKey('User.id')),
-    db.Column('role_id', db.Integer(), db.ForeignKey('Role.id'))
-)
+class RolesUsers(db.Model):
+    __tablename__ = 'roles_users'
+    id = db.Column(db.Integer(), primary_key=True)
+    user_id = db.Column('user_id', db.Integer(), db.ForeignKey('user.id'))
+    role_id = db.Column('role_id', db.Integer(), db.ForeignKey('role.id'))
 
 class Role(db.Model, RoleMixin):
-    __tablename__ = "Role"
-    id = db.Column(db.Integer(), primary_key=True, autoincrement=True)
+    id = db.Column(db.Integer(), primary_key=True)
     name = db.Column(db.String(80), unique=True)
     description = db.Column(db.String(255))
 
+
 class User(db.Model, UserMixin):
-    __tablename__ = "User"
-
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    roles = db.relationship('Role', secondary=roles_users)
-    fs_uniquifier = db.Column(db.String(255), unique=True, nullable=False)
-    # fs_uniquifier = db.Column(db.String(255), unique=True)
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String, unique=False)
+    email = db.Column(db.String, unique=True)
+    password = db.Column(db.String(255))
     active = db.Column(db.Boolean())
-
-    username = db.Column(db.String(50), index=True, unique=True, nullable=False)
-    email = db.Column(db.String(100), index=True, unique=True, nullable=False)
-    contact = db.Column(db.String(15), unique=True, nullable=False)
-    password = db.Column(db.String(500))
-
+    fs_uniquifier = db.Column(db.String(255), unique=True, nullable=False, default="default_value")
+    roles = db.relationship('Role', secondary='roles_users',
+                         backref=db.backref('users', lazy='dynamic'))
     
-    first_name = db.Column(db.String(100), nullable=False)
-    last_name = db.Column(db.String(100), nullable=False)
+    contact = db.Column(db.String(15), unique=True)  
+    first_name = db.Column(db.String(100))
+    last_name = db.Column(db.String(100))
     middle_name = db.Column(db.String(100))
 
 
@@ -50,15 +44,15 @@ class User(db.Model, UserMixin):
 
    
     def set_password(self, password):
-        self.password = generate_password_hash(password)
+        # self.password = generate_password_hash(password)
+        self.password = hash_password(password)
 
     def check_password(self, password):
-        return check_password_hash(self.password, password)
+        # return check_password_hash(self.password, password)
+        return verify_password(password, self.password)
 
 class Student(User):
-    __tablename__ = "Student"
-
-    id = db.Column(db.Integer, db.ForeignKey('User.id'), primary_key=True)
+    id = db.Column(db.Integer, db.ForeignKey('user.id'), primary_key=True)
     # additional student-specific fields can be added here
     enrollment_number = db.Column(db.String(100))
     degree = db.Column(db.String(100))
@@ -78,9 +72,7 @@ class Student(User):
     
 
 class Faculty(User):
-    __tablename__ = "Faculty"
-
-    id = db.Column(db.Integer, db.ForeignKey('User.id'), primary_key=True)
+    id = db.Column(db.Integer, db.ForeignKey('user.id'), primary_key=True)
     department = db.Column(db.String(100))
     designation = db.Column(db.String(100))
 
