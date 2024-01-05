@@ -1,6 +1,7 @@
 from main import app
-from app.sec import datastore
-from app.models import db, Role
+from app import datastore
+# from app.models import db, Role
+from app.models import db
 from flask_security import hash_password
 from werkzeug.security import generate_password_hash
 

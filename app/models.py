@@ -1,6 +1,6 @@
-from flask_security import hash_password, verify_password
 from flask_sqlalchemy import SQLAlchemy
-from flask_security import UserMixin, RoleMixin
+from flask_security import UserMixin, RoleMixin, hash_password, verify_password
+
 db = SQLAlchemy()
 
 class RolesUsers(db.Model):

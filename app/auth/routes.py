@@ -1,9 +1,8 @@
+from flask import redirect, render_template, flash, url_for
+from app import datastore
 from app.models import db
 from app.auth import bp
-
-from flask import redirect, render_template, flash, url_for
-from app.sec import datastore
-from flask_security import current_user, logout_user, login_user, hash_password
+from flask_security import current_user, logout_user, login_user, hash_password, login_required
 from flask_security.forms import LoginForm, RegisterForm
 
 @bp.route("/login", methods=["GET", "POST"])
