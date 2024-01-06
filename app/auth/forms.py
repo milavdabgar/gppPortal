@@ -23,3 +23,4 @@ class ExtendedRegisterForm(RegisterForm):
 
 class ExtendedLoginForm(LoginForm):
     username = StringField("User Name", validators=[DataRequired()])
+       
