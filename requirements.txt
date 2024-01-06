@@ -4,6 +4,7 @@ Flask-Login
 Flask-RESTful
 Flask-Security-Too
 Flask-SQLAlchemy
+Flask-Mail
 Flask-Migrate
 Flask-WTF
 Werkzeug==2.3.7

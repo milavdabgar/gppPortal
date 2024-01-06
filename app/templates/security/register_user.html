@@ -1,0 +1,14 @@
+<!-- templates/security/register_user.html -->
+{% extends 'base.html' %}
+{% block content %}
+  <h2>Register</h2>
+  <form action="{{ url_for_security('register') }}" method="POST" name="register_user_form">
+    {{ register_user_form.hidden_tag() }}
+    {{ register_user_form.first_name.label }} {{ register_user_form.first_name() }}
+    {{ register_user_form.last_name.label }} {{ register_user_form.last_name() }}
+    {{ register_user_form.username.label }} {{ register_user_form.username() }}
+    {{ register_user_form.contact.label }} {{ register_user_form.contact() }}
+    <!-- Include other fields as necessary -->
+    <button type="submit">Register</button>
+  </form>
+{% endblock %}

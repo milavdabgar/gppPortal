@@ -12,7 +12,9 @@ from flask_security import (
     ForgotPasswordForm,
     ChangePasswordForm,
 )
-from flask_security.forms import LoginForm, RegisterForm
+
+# from flask_security.forms import LoginForm, RegisterForm
+from app.auth.forms import ExtendedLoginForm, ExtendedRegisterForm
 from flask_security.recoverable import (
     send_reset_password_instructions,
     generate_reset_password_token,
@@ -25,12 +27,12 @@ from flask_security.recoverable import (
 def login():
     if current_user.is_authenticated:
         return redirect(url_for("main.index"))
-    form = LoginForm()
+    form = ExtendedLoginForm()
     if form.validate_on_submit():
         user = datastore.find_user(email=form.email.data)
         if user is None or not user.check_password(form.password.data):
             flash("Invalid username or password")
-            return redirect(url_for("auth.login"))
+            return redirect(url_for("security.login"))
         login_user(user, remember=form.remember.data)
         return redirect(url_for("main.index"))
     return render_template("auth/login.html", title="Sign In", form=form)
@@ -46,15 +48,20 @@ def logout():
 def register():
     if current_user.is_authenticated:
         return redirect(url_for("main.index"))
-    form = RegisterForm()
+    form = ExtendedRegisterForm()
     if form.validate_on_submit():
         if not datastore.find_user(email=form.email.data):
             datastore.create_user(
-                email=form.email.data, password=hash_password(form.password.data)
+                email=form.email.data,
+                password=hash_password(form.password.data),
+                username=form.username.data,
+                first_name=form.first_name.data,
+                last_name=form.last_name.data,
+                contact=form.contact.data,
             )
         db.session.commit()
         flash("Congratulations, you are now a registered user!")
-        return redirect(url_for("auth.login"))
+        return redirect(url_for("security.login"))
     return render_template("auth/register.html", title="Register", form=form)
 
 
@@ -63,11 +70,8 @@ def reset_password():
     form = ForgotPasswordForm()
     if form.validate_on_submit():
         user = datastore.find_user(email=form.email.data)
-        # Generate a reset password token
-        token = generate_reset_password_token(user)
         send_reset_password_instructions(user)
         flash("Password reset instructions have been sent to your email")
-        return redirect(url_for("auth.reset_password", token=token))
     return render_template(
         "auth/reset_password.html", title="Reset Password", form=form
     )

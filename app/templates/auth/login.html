@@ -7,11 +7,11 @@
     </div>
     <br>
     <p>
-        {{ 'New User?' }} <a href="{{ url_for("auth.register") }}">{{ 'Click to Register!' }}</a>
+        {{ 'New User?' }} <a href="{{ url_for("security.register") }}">{{ 'Click to Register!' }}</a>
     </p>
     <p>
         {{ 'Forgot Your Password?' }}
-        <a href="{{ url_for("auth.reset_password") }}">{{ 'Click to Reset It' }}</a>
-        <a href="{{ url_for("main.update_password") }}">{{ 'Click to Update It' }}</a>
+        <a href="{{ url_for("security.forgot_password") }}">{{ 'Click to Reset It' }}</a>
+        <a href="{{ url_for("security.change_password") }}">{{ 'Click to Update It' }}</a>
     </p>
 {% endblock %}

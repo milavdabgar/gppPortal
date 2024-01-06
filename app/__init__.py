@@ -3,16 +3,18 @@ from flask_migrate import Migrate
 from flask_bootstrap import Bootstrap
 from flask_restful import Api
 from flask_security import SQLAlchemyUserDatastore, Security, hash_password
+from flask_mail import Mail
 
 from app.models import db, User, Role
 from app.config import LocalDevelopmentConfig
+# from app.auth.forms import ExtendedRegisterForm
 
 # app = None
 migrate = Migrate()
 datastore = SQLAlchemyUserDatastore(db, User, Role)
 security = Security()
 bootstrap = Bootstrap()
-
+mail = Mail()
 
 def create_app():
     app = Flask(__name__)
@@ -53,6 +55,7 @@ def create_app():
 
         # import application.views
     migrate.init_app(app, db)
+    mail.init_app(app)
     bootstrap.init_app(app)
     api = Api(app)
 
