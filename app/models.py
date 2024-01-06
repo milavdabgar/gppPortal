@@ -1,6 +1,6 @@
 from flask_sqlalchemy import SQLAlchemy
 from flask_security import UserMixin, RoleMixin, hash_password, verify_password
-
+from datetime import datetime
 db = SQLAlchemy()
 
 
@@ -23,6 +23,7 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String, unique=True)
     password = db.Column(db.String(255))
     active = db.Column(db.Boolean())
+    confirmed_at = db.Column(db.DateTime, default=datetime.utcnow)
     fs_uniquifier = db.Column(
         db.String(255), unique=True, nullable=False, default="default_value"
     )

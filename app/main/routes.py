@@ -49,7 +49,7 @@ def update_password():
         user = current_user  # Assuming current_user represents the user object
         update_password(user, form.password.data)
         flash("Your password has been updated")
-        return redirect(url_for("auth.login"))
+        return redirect(url_for("security.login"))
     return render_template(
         "main/update_password.html", title="Update Password", form=form
     )

@@ -7,9 +7,7 @@ from flask_mail import Mail
 
 from app.models import db, User, Role
 from app.config import LocalDevelopmentConfig
-# from app.auth.forms import ExtendedRegisterForm
 
-# app = None
 migrate = Migrate()
 datastore = SQLAlchemyUserDatastore(db, User, Role)
 security = Security()
@@ -59,10 +57,8 @@ def create_app():
     bootstrap.init_app(app)
     api = Api(app)
 
-    from app.auth import bp as auth_bp
     from app.main import bp as main_bp
 
-    app.register_blueprint(auth_bp, url_prefix="/auth")
     app.register_blueprint(main_bp)
     return app, api
 
