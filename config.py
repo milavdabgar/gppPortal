@@ -2,7 +2,6 @@ import os
 from dotenv import load_dotenv
 
 basedir = os.path.abspath(os.path.dirname(__file__))
-# parentdir = os.path.dirname(basedir)
 load_dotenv(os.path.join(basedir, ".env"))
 
 
@@ -13,7 +12,6 @@ class Config:
     SQLALCHEMY_DATABASE_URI = None
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
-    # LOG_TO_STDOUT = os.environ.get('LOG_TO_STDOUT')
     MAIL_SERVER = os.environ.get("MAIL_SERVER") or "smtp.googlemail.com"
     MAIL_PORT = int(os.environ.get("MAIL_PORT") or 587)
     MAIL_USE_TLS = os.environ.get("MAIL_USE_TLS") or 1
@@ -36,7 +34,6 @@ class Config:
 
 class LocalDevelopmentConfig(Config):
     DEBUG = True
-    # SQLALCHEMY_DATABASE_URI = "sqlite:///GPPPortal.sqlite"
     SQLALCHEMY_DATABASE_URI = "sqlite:///" + os.path.join(basedir, "GPPPortal.sqlite")
     # CACHE_TYPE = "RedisCache"
     # CACHE_REDIS_HOST = "localhost"
@@ -52,3 +49,4 @@ class LocalDevelopmentConfig(Config):
     # SECURITY_LOGIN_FORM = "ExtendedLoginForm"
     # SECURITY_URL_PREFIX = '/auth'
     # SECURITY_EMAIL_RESET_PASSWORD_TEMPLATE = 'auth/reset_password_instructions.html'
+        # LOG_TO_STDOUT = os.environ.get('LOG_TO_STDOUT')

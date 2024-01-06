@@ -1,8 +1,8 @@
 from flask import request, jsonify
 from flask_restful import Resource, reqparse
-from app.models import User
-from app.users.forms import EditUserForm
-from app.models import db
+from .models import User
+from .forms import EditUserForm
+from app.extentions import db
 
 class UserResource(Resource):
     # Create request parsers for handling input data

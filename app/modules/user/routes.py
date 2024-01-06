@@ -1,18 +1,19 @@
 from flask import render_template, flash, redirect, url_for, request
 from flask_security import current_user, login_required
-from app.models import db, User
-from app.users.forms import EditUserForm
-from app.users import bp
+
+from . import user
+from .forms import EditUserForm
+from .models import User, db
 
 
-@bp.route("/user_list")
+@user.route("/user_list")
 @login_required
 def user_list():
     users = User.query.all()
     return render_template("user/user_manage.html", users=users)
 
 
-@bp.route("/users/<int:user_id>")
+@user.route("/users/<int:user_id>")
 @login_required
 def show_user(user_id):
     user = User.query.get(user_id)
@@ -21,7 +22,7 @@ def show_user(user_id):
     return {"message": "User not found"}, 404
 
 
-@bp.route("/users/add", methods=["GET", "POST"])
+@user.route("/users/add", methods=["GET", "POST"])
 @login_required
 # @roles_required('admin')
 def add_user():
@@ -47,7 +48,7 @@ def add_user():
     return render_template("user/user_add.html", form=form)
 
 
-@bp.route("/users/edit/<int:user_id>", methods=["GET", "POST"])
+@user.route("/users/edit/<int:user_id>", methods=["GET", "POST"])
 @login_required
 # @roles_required('admin')
 def edit_user(user_id):
@@ -62,7 +63,7 @@ def edit_user(user_id):
     return render_template("user/user_edit.html", form=form, user=user)
 
 
-@bp.route("/edit_profile", methods=["GET", "POST"])
+@user.route("/edit_profile", methods=["GET", "POST"])
 @login_required
 def edit_profile():
     form = EditUserForm(obj=current_user)
@@ -73,10 +74,10 @@ def edit_profile():
         flash("User updated successfully!", "success")
         return redirect(url_for("main.index"))
 
-    return render_template("main/edit_profile.html", form=form)
+    return render_template("edit_profile.html", form=form)
 
 
-@bp.route("/users/delete/<int:user_id>", methods=["GET", "POST"])
+@user.route("/users/delete/<int:user_id>", methods=["GET", "POST"])
 @login_required
 # @roles_required('admin')
 def delete_user(user_id):

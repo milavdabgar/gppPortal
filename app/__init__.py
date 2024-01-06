@@ -1,18 +1,13 @@
 from flask import Flask
-from flask_migrate import Migrate
-from flask_bootstrap import Bootstrap
 from flask_restful import Api
-from flask_security import SQLAlchemyUserDatastore, Security, hash_password
-from flask_mail import Mail
+from flask_security import SQLAlchemyUserDatastore, hash_password
 
-from app.models import db, User, Role
+from .extentions import db, migrate, security, bootstrap, mail
+
+from app.modules.user.models import User, Role
 from config import LocalDevelopmentConfig
 
-migrate = Migrate()
 datastore = SQLAlchemyUserDatastore(db, User, Role)
-security = Security()
-bootstrap = Bootstrap()
-mail = Mail()
 
 def create_app():
     app = Flask(__name__)
@@ -54,20 +49,19 @@ def create_app():
 
         db.session.commit()
 
-        # import application.views
+    # import application.views
     migrate.init_app(app, db)
     mail.init_app(app)
     bootstrap.init_app(app)
     api = Api(app)
 
-    from app.main import bp as main_bp
-    from app.users import bp as users_bp
-    
 
-    app.register_blueprint(main_bp)
-    app.register_blueprint(users_bp)
+    # Import the Blueprint
+    from .modules.user import user as user_blueprint
+    from .modules.main import main as main_blueprint
+    
+    # Register Blueprints
+    app.register_blueprint(user_blueprint, url_prefix='/user')
+    app.register_blueprint(main_blueprint)
     
     return app, api
-
-
-from app import models
