@@ -1,14 +1,14 @@
 from flask_sqlalchemy import SQLAlchemy
-from flask_security import UserMixin, RoleMixin, hash_password, verify_password
+from flask_security import UserMixin, RoleMixin
 from datetime import datetime
 db = SQLAlchemy()
 
 
-class RolesUsers(db.Model):
-    __tablename__ = "roles_users"
-    id = db.Column(db.Integer(), primary_key=True)
-    user_id = db.Column("user_id", db.Integer(), db.ForeignKey("user.id"))
-    role_id = db.Column("role_id", db.Integer(), db.ForeignKey("role.id"))
+roles_users = db.Table(
+    'roles_users',
+    db.Column('user_id', db.Integer(), db.ForeignKey('user.id')),
+    db.Column('role_id', db.Integer(), db.ForeignKey('role.id'))
+)
 
 
 class Role(db.Model, RoleMixin):
@@ -27,7 +27,9 @@ class User(db.Model, UserMixin):
     fs_uniquifier = db.Column(
         db.String(255), unique=True, nullable=False)
     roles = db.relationship(
-        "Role", secondary="roles_users", backref=db.backref("users", lazy="dynamic")
+        'Role',
+        secondary=roles_users,
+        backref=db.backref('users', lazy='dynamic')
     )
 
     contact = db.Column(db.String(15), unique=True)
@@ -46,10 +48,11 @@ class User(db.Model, UserMixin):
     country = db.Column(db.String(100))
     pincode = db.Column(db.String(100))
 
+    # Additional fields specific to each role can be added here
+
 
 class Student(User):
     id = db.Column(db.Integer, db.ForeignKey("user.id"), primary_key=True)
-    # additional student-specific fields can be added here
     enrollment_number = db.Column(db.String(100))
     degree = db.Column(db.String(100))
     branch = db.Column(db.String(100))
@@ -71,8 +74,3 @@ class Faculty(User):
     id = db.Column(db.Integer, db.ForeignKey("user.id"), primary_key=True)
     department = db.Column(db.String(100))
     designation = db.Column(db.String(100))
-
-    # additional faculty-specific fields can be added here
-
-
-
