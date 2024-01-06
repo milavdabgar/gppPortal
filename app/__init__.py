@@ -24,8 +24,11 @@ def create_app():
         db.create_all()
         roles = [
             ("admin", "User is an admin"),
-            ("inst", "User is an Instructor"),
-            ("stud", "User is a Student"),
+            ("student", "User is an Student"),
+            ("faculty", "User is a faculty"),
+            ("la", "User is an Lab Assistant"),
+            ("principal", "User is a Principal"),
+            ("hod", "User is a HOD")
         ]
 
         for role_name, role_description in roles:
@@ -34,10 +37,10 @@ def create_app():
         db.session.commit()
 
         users = [
-            ("admin@email.com", "admin", ["admin"]),
-            ("inst1@email.com", "inst1", ["inst"], False),
-            ("stud1@email.com", "stud1", ["stud"]),
-            ("stud2@email.com", "stud2", ["stud"]),
+            ("milav.dabgar@gmail.com", "seagate123", ["admin", "faculty"]),
+            ("dev@gpp.com", "seagate123", ["student"], False),
+            ("sunil@gpp.com", "seagate123", ["faculty", "hod"]),
+            ("vasim@gpp.com", "seagate123", ["la"])
         ]
 
         for email, password, user_roles, *active in users:

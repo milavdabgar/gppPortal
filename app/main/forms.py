@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, SelectField, DateField, DateTimeField
+from wtforms import StringField, SubmitField, SelectField, SelectMultipleField, DateField, DateTimeField
 from wtforms.validators import ValidationError, DataRequired, Email
 from app.models import User
 
@@ -14,7 +14,8 @@ class EditProfileForm(FlaskForm):
     gender = SelectField(
         "Gender", choices=[("male", "Male"), ("female", "Female"), ("other", "Other")]
     )
-    dob = StringField("Date of Birth")
+    # dob = StringField("Date of Birth")
+    dob = DateField('Date of Birth', format='%Y-%m-%d', validators=[DataRequired()])
     category = SelectField(
         "Category",
         choices=[("general", "General"), ("sebc", "SEBC"), ("sc", "SC"), ("st", "ST")],
@@ -30,8 +31,12 @@ class EditProfileForm(FlaskForm):
             ("AB-", "AB-"),
             ("O+", "O+"),
             ("O-", "O-"),
-        ],
-    )
+        ])
+
+    # roles = SelectMultipleField(
+    #     "Roles",
+    #     choices=[("admin", "Admin"), ("student", "Student"), ("faculty", "Faculty"), ("la", "Lab Assistant"), ("principal", "Principal"), ("hod", "HOD")],
+    # )
 
     submit = SubmitField("Submit")
 
@@ -39,8 +44,8 @@ class EditProfileForm(FlaskForm):
         super(EditProfileForm, self).__init__(*args, **kwargs)
         self.original_username = original_username
 
-    def validate_username(self, username):
-        if username.data != self.original_username:
-            user = User.query.filter_by(username=self.username.data).first()
-            if user is not None:
-                raise ValidationError("Please use a different username.")
+    # def validate_username(self, username):
+    #     if username.data != self.original_username:
+    #         user = User.query.filter_by(username=self.username.data).first()
+    #         if user is not None:
+    #             raise ValidationError("Please use a different username.")

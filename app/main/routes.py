@@ -1,12 +1,10 @@
 from flask import render_template, flash, redirect, url_for, request
-from flask_security import current_user, ChangePasswordForm
+from flask_security import current_user
 from flask_security import auth_required, roles_required, login_required
 from app.models import db
 from app.main.forms import EditProfileForm
 from app.main import bp
-from app import datastore
-from flask_security.recoverable import update_password
-
+from datetime import datetime
 
 @bp.route("/", methods=["GET", "POST"])
 @bp.route("/index", methods=["GET", "POST"])
@@ -21,6 +19,7 @@ def index():
 @roles_required("admin")
 def admin():
     return render_template("main/admin.html")
+
 
 
 @bp.route("/edit_profile", methods=["GET", "POST"])
@@ -39,17 +38,3 @@ def edit_profile():
             if attribute.name != "submit" and attribute.name != "csrf_token":
                 attribute.data = getattr(current_user, attribute.name)
     return render_template("main/edit_profile.html", title="Edit Profile", form=form)
-
-
-@bp.route("/update_password", methods=["GET", "POST"])
-def update_password():
-    form = ChangePasswordForm()
-    if form.validate_on_submit():
-        # Update the user's password
-        user = current_user  # Assuming current_user represents the user object
-        update_password(user, form.password.data)
-        flash("Your password has been updated")
-        return redirect(url_for("security.login"))
-    return render_template(
-        "main/update_password.html", title="Update Password", form=form
-    )

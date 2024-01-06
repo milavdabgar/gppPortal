@@ -25,8 +25,7 @@ class User(db.Model, UserMixin):
     active = db.Column(db.Boolean())
     confirmed_at = db.Column(db.DateTime, default=datetime.utcnow)
     fs_uniquifier = db.Column(
-        db.String(255), unique=True, nullable=False, default="default_value"
-    )
+        db.String(255), unique=True, nullable=False)
     roles = db.relationship(
         "Role", secondary="roles_users", backref=db.backref("users", lazy="dynamic")
     )
@@ -37,7 +36,7 @@ class User(db.Model, UserMixin):
     middle_name = db.Column(db.String(100))
 
     gender = db.Column(db.String(100))
-    dob = db.Column(db.String(100))
+    dob = db.Column(db.DateTime)
     category = db.Column(db.String(100))
     blood_group = db.Column(db.String(100))
 
