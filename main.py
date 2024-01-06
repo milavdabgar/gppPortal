@@ -1,5 +1,5 @@
 from app import create_app
-from app.api.users import UserResource
+from app.users.api import UserResource
 
 app, api = create_app()
 

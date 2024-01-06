@@ -1,4 +1,4 @@
-from flask import request
+from flask import request, jsonify
 from flask_restful import Resource, reqparse
 from app.models import User
 from app.users.forms import EditUserForm
@@ -14,7 +14,7 @@ class UserResource(Resource):
     def get(self, user_id):
         user = User.query.get(user_id)
         if user:
-            return user.json()
+            return jsonify(user)
         return {"message": "User not found"}, 404
 
     def post(self):
@@ -22,8 +22,9 @@ class UserResource(Resource):
         if form.validate():
             data = form.data
             user = User(**data)
+            db.session.add(user)
             db.session.commit()
-            return user.json(), 201
+            return jsonify(user), 201
         return {"message": "Invalid input"}, 400
 
     def put(self, user_id):
@@ -44,7 +45,7 @@ class UserResource(Resource):
                 user.blood_group = data["blood_group"]
                 # user.roles = data["roles"]
                 db.session.commit()
-                return user.json()
+                return jsonify(user)
             return {"message": "User not found"}, 404
         return {"message": "Invalid input"}, 400
 
