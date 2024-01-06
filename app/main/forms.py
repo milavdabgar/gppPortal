@@ -1,10 +1,9 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, SelectField, SelectMultipleField, DateField, DateTimeField
-from wtforms.validators import ValidationError, DataRequired, Email
-from app.models import User
+from wtforms import StringField, SubmitField, SelectField, SelectMultipleField, DateField
+from wtforms.validators import DataRequired, Email
 
 
-class EditProfileForm(FlaskForm):
+class EditUserForm(FlaskForm):
     first_name = StringField("First Name", validators=[DataRequired()])
     middle_name = StringField("Middle Name", validators=[DataRequired()])
     last_name = StringField("Last Name", validators=[DataRequired()])
@@ -39,13 +38,3 @@ class EditProfileForm(FlaskForm):
     # )
 
     submit = SubmitField("Submit")
-
-    def __init__(self, original_username, *args, **kwargs):
-        super(EditProfileForm, self).__init__(*args, **kwargs)
-        self.original_username = original_username
-
-    # def validate_username(self, username):
-    #     if username.data != self.original_username:
-    #         user = User.query.filter_by(username=self.username.data).first()
-    #         if user is not None:
-    #             raise ValidationError("Please use a different username.")

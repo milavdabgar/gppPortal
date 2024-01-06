@@ -46,14 +46,6 @@ class User(db.Model, UserMixin):
     country = db.Column(db.String(100))
     pincode = db.Column(db.String(100))
 
-    def set_password(self, password):
-        # self.password = generate_password_hash(password)
-        self.password = hash_password(password)
-
-    def check_password(self, password):
-        # return check_password_hash(self.password, password)
-        return verify_password(password, self.password)
-
 
 class Student(User):
     id = db.Column(db.Integer, db.ForeignKey("user.id"), primary_key=True)

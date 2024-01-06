@@ -2,9 +2,9 @@ from flask import render_template, flash, redirect, url_for, request
 from flask_security import current_user
 from flask_security import auth_required, roles_required, login_required
 from app.models import db
-from app.main.forms import EditProfileForm
+from app.main.forms import EditUserForm
 from app.main import bp
-from datetime import datetime
+from app import datastore
 
 @bp.route("/", methods=["GET", "POST"])
 @bp.route("/index", methods=["GET", "POST"])
@@ -21,20 +21,16 @@ def admin():
     return render_template("main/admin.html")
 
 
-
-@bp.route("/edit_profile", methods=["GET", "POST"])
+@bp.route('/edit_user', methods=['GET', 'POST'])
 @login_required
-def edit_profile():
-    form = EditProfileForm(current_user.username)
+def edit_user():
+    form = EditUserForm(obj=current_user)
+
     if form.validate_on_submit():
-        for attribute in form:
-            if attribute.name != "submit" and attribute.name != "csrf_token":
-                setattr(current_user, attribute.name, attribute.data)
+        form.populate_obj(current_user)
         db.session.commit()
-        flash("Your changes have been saved.")
-        return redirect(url_for("main.edit_profile"))
-    elif request.method == "GET":
-        for attribute in form:
-            if attribute.name != "submit" and attribute.name != "csrf_token":
-                attribute.data = getattr(current_user, attribute.name)
-    return render_template("main/edit_profile.html", title="Edit Profile", form=form)
+        flash('User updated successfully!', 'success')
+        return redirect(url_for('main.index'))
+
+    return render_template('main/edit_user.html', form=form)
+
