@@ -6,7 +6,7 @@ from flask_security import SQLAlchemyUserDatastore, Security, hash_password
 from flask_mail import Mail
 
 from app.models import db, User, Role
-from app.config import LocalDevelopmentConfig
+from config import LocalDevelopmentConfig
 
 migrate = Migrate()
 datastore = SQLAlchemyUserDatastore(db, User, Role)
