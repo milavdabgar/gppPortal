@@ -9,11 +9,42 @@ Flask-Mail
 Flask-Migrate
 flask-marshmallow
 Flask-WTF
+Flask-Moment
+Flask-Babel
+Flask-Uploads
+Flask-OAuthlib
+Flask-JWT-Extended
+Flask-Excel
+flask-sse 
 Werkzeug
 python-dotenv
 djlint
 marshmallow_sqlalchemy
 requests
 celery
-Flask-Excel
+# celery[redis]
 redis
+gunicorn
+weasyprint
+
+
+Flask-Admin
+Flask-Testing
+Flask-Cors
+
+# Flask-Session
+# Flask-Principal
+# Flask-Pydantic
+# Flask-Accepts
+# Flask-SocketIO
+# Flask-HTTPAuth
+
+# Flask-Limiter
+# Flask-Talisman
+# Flask-SeaSurf
+
+# Flask-Compress
+# Flask-Assets
+# Flask-FlatPages
+# Flask-GraphQL
+

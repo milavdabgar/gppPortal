@@ -46,3 +46,5 @@ class User(db.Model, UserMixin):
     state = db.Column(db.String(100))
     country = db.Column(db.String(100))
     pincode = db.Column(db.String(100))
+    
+# user_datastore = SQLAlchemyUserDatastore(db,User,Role)    

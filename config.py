@@ -17,8 +17,7 @@ class Config:
     MAIL_USE_TLS = os.environ.get("MAIL_USE_TLS") or 1
     MAIL_USERNAME = os.environ.get("MAIL_USERNAME") or "admin@email.com"
     MAIL_PASSWORD = os.environ.get("MAIL_PASSWORD") or "password"
-    # ADMINS = ['milav.dabgar@gmail.com']
-    # ELASTICSEARCH_URL = os.environ.get('ELASTICSEARCH_URL')
+
 
     SECRET_KEY = os.environ.get("SECRET_KEY") or "you-will-never-guess"
     SECURITY_PASSWORD_HASH = os.environ.get("SECURITY_PASSWORD_HASH") or "bcrypt"
@@ -30,16 +29,32 @@ class Config:
     SECURITY_UNAUTHORIZED_VIEW = None
     SECURITY_TOKEN_AUTHENTICATION_HEADER = None
     WTF_CSRF_ENABLED = False
+    
+    CELERY_BROKER_URL = "redis://localhost:6379/1"
+    CELERY_RESULT_BACKEND = "redis://localhost:6379/2"
+    REDIS_URL = "redis://localhost:6379"
+    CACHE_TYPE = "RedisCache"
+    CACHE_DEFAULT_TIMEOUT = 300
+    CACHE_REDIS_HOST = "localhost"
+    CACHE_REDIS_PORT = 6379
+    CACHE_REDIS_DB = 3    
+    
+    # CACHE_REDIS_URL = 'redis://localhost:6379/3'
+    
+    # LOG_TO_STDOUT = os.environ.get('LOG_TO_STDOUT')
+    # ADMINS = ['milav.dabgar@gmail.com']
+    # LANGUAGES = ['en', 'es']
+    # MS_TRANSLATOR_KEY = os.environ.get('MS_TRANSLATOR_KEY')
+    # ELASTICSEARCH_URL = os.environ.get('ELASTICSEARCH_URL')
+    
+    # OUTH_CLIENT_ID = os.getenv("OUTH_CLIENT_ID")
+    # OUTH_CILENT_SECRET = os.getenv("OUTH_CILENT_SECRET")
 
 
 class LocalDevelopmentConfig(Config):
     DEBUG = True
     SQLALCHEMY_DATABASE_URI = "sqlite:///" + os.path.join(basedir, "GPPPortal.sqlite")
-    CACHE_TYPE = "RedisCache"
-    CACHE_REDIS_HOST = "localhost"
-    CACHE_REDIS_PORT = 6379
-    CACHE_REDIS_DB = 3
-    # CACHE_REDIS_URL = 'redis://localhost:6379/3'
+
     SECURITY_REGISTERABLE = True
     SECURITY_RECOVERABLE = True
     # SECURITY_CONFIRMABLE = True
@@ -50,4 +65,3 @@ class LocalDevelopmentConfig(Config):
     # SECURITY_LOGIN_FORM = "ExtendedLoginForm"
     # SECURITY_URL_PREFIX = '/auth'
     # SECURITY_EMAIL_RESET_PASSWORD_TEMPLATE = 'auth/reset_password_instructions.html'
-        # LOG_TO_STDOUT = os.environ.get('LOG_TO_STDOUT')

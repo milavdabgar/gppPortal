@@ -2,6 +2,10 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, SelectField, SelectMultipleField, DateField
 from wtforms.validators import DataRequired, Email
 
+# class SelectMultipleField(SelectMultipleField):
+#     def process_formdata(self, valuelist):
+#         self.data = [int(x) for x in valuelist]
+
 
 class EditUserForm(FlaskForm):
     first_name = StringField("First Name", validators=[DataRequired()])
