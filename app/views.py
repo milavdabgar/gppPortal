@@ -5,8 +5,9 @@ from flask_restful import marshal, fields
 import flask_excel as excel
 from celery.result import AsyncResult
 from .tasks import create_resource_csv
-from .models import User, db, StudyResource
-from .sec import datastore
+from .models import db, StudyResource
+from .modules.user.models import User
+# from .extentions import user_datastore
 
 
 @app.get('/')
@@ -40,8 +41,8 @@ def user_login():
     email = data.get('email')
     if not email:
         return jsonify({"message": "email not provided"}), 400
-
-    user = datastore.find_user(email=email)
+    user_datastore = app.user_datastore
+    user = user_datastore.find_user(email=email)
 
     if not user:
         return jsonify({"message": "User Not Found"}), 404
