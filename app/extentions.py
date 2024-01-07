@@ -5,12 +5,9 @@ from flask_bootstrap import Bootstrap
 from flask_security import Security
 from flask_mail import Mail
 
-
 # Initialize extensions, but without any specific app bound to them.
 db = SQLAlchemy()
 migrate = Migrate()
 bootstrap = Bootstrap()
 mail = Mail()
 security = Security()
-
-# You can include other extensions here and initialize them the same way.

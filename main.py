@@ -1,16 +1,6 @@
 from app import create_app
-from app.modules.user.api import UserResource
 
-app, api = create_app()
-
-api.add_resource(
-    UserResource,
-    "/user_list",
-    "/users/<int:user_id>",
-    "/users/add",
-    "/users/edit/<int:user_id>",
-    "/users/delete/<int:user_id>",
-)
+app = create_app()
 
 if __name__ == "__main__":
     app.run(debug=True)

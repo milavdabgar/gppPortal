@@ -1,8 +1,13 @@
+# app/modules/user/api.py
+from flask import Blueprint
 from flask import request, jsonify
-from flask_restful import Resource, reqparse
+from flask_restful import Resource, reqparse, Api
 from .models import User
 from .forms import EditUserForm
 from app.extentions import db
+
+user_blueprint = Blueprint('user_api', __name__)
+api = Api(user_blueprint)
 
 class UserResource(Resource):
     # Create request parsers for handling input data
@@ -56,15 +61,12 @@ class UserResource(Resource):
             db.session.commit()
             return {"message": "User deleted"}
         return {"message": "User not found"}, 404
-    
-# class StudentResource(Resource):
-#     student_parser = reqparse.RequestParser()
-#     student_parser.add_argument('name', type=str, required=True, help='Name is required')
-#     student_parser.add_argument('enrollment_number', type=str, required=True, help='Enrollment number is required')
-#     # Add other arguments as needed
 
-# class FacultyResource(Resource):
-#     faculty_parser = reqparse.RequestParser()
-#     faculty_parser.add_argument('name', type=str, required=True, help='Name is required')
-#     faculty_parser.add_argument('department', type=str, required=True, help='Department is required')
-#     # Add other arguments as needed
+api.add_resource(
+    UserResource,
+    "/user_list",
+    "/users/<int:user_id>",
+    "/users/add",
+    "/users/edit/<int:user_id>",
+    "/users/delete/<int:user_id>",
+)

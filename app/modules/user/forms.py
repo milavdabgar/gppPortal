@@ -13,7 +13,6 @@ class EditUserForm(FlaskForm):
     gender = SelectField(
         "Gender", choices=[("male", "Male"), ("female", "Female"), ("other", "Other")]
     )
-    # dob = StringField("Date of Birth")
     dob = DateField('Date of Birth', format='%Y-%m-%d', validators=[DataRequired()])
     category = SelectField(
         "Category",
@@ -32,9 +31,9 @@ class EditUserForm(FlaskForm):
             ("O-", "O-"),
         ])
 
-    # roles = SelectMultipleField(
-    #     "Roles",
-    #     choices=[("admin", "Admin"), ("student", "Student"), ("faculty", "Faculty"), ("la", "Lab Assistant"), ("principal", "Principal"), ("hod", "HOD")],
-    # )
+    roles = SelectMultipleField(
+        "Roles",
+        choices=[("admin", "Admin"), ("student", "Student"), ("faculty", "Faculty"), ("la", "Lab Assistant"), ("principal", "Principal"), ("hod", "HOD")],
+    )
 
     submit = SubmitField("Submit")

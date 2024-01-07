@@ -1,4 +1,4 @@
-from flask import render_template, flash, redirect, url_for, request
+from flask import render_template, flash, redirect, url_for, request, current_app
 from flask_security import current_user, login_required
 
 from . import user
@@ -6,23 +6,25 @@ from .forms import EditUserForm
 from .models import User, db
 
 
-@user.route("/user_list")
-@login_required
-def user_list():
-    users = User.query.all()
-    return render_template("user/user_manage.html", users=users)
-
-
-@user.route("/users/<int:user_id>")
+@user.route("/<int:user_id>")
 @login_required
 def show_user(user_id):
-    user = User.query.get(user_id)
+    user = current_app.user_datastore.find_user(id=user_id)
     if user:
-        return render_template("user/user_view.html", user=user)
+        return render_template("user_view.html", user=user)
     return {"message": "User not found"}, 404
 
 
-@user.route("/users/add", methods=["GET", "POST"])
+# Register routes and handlers for the user blueprint
+@user.route("/")
+def display_users():
+    if not current_user.has_role("admin"):
+        return "You don't have permission to view this page", 403
+    users = User.query.all()
+    return render_template("index.html", users=users)
+
+
+@user.route("/add", methods=["GET", "POST"])
 @login_required
 # @roles_required('admin')
 def add_user():
@@ -30,25 +32,25 @@ def add_user():
     if request.method == "POST" and form.validate_on_submit():
         data = form.data
         user = User(
-            first_name = data["name"],
-            middle_name = data["middle_name"],
-            last_name = data["last_name"],
-            username = data["username"],
-            email = data["email"],
-            contact = data["contact"],
-            gender = data["gender"],
-            dob = data["dob"],
-            category = data["category"],
-            blood_group = data["blood_group"]
+            first_name=data["name"],
+            middle_name=data["middle_name"],
+            last_name=data["last_name"],
+            username=data["username"],
+            email=data["email"],
+            contact=data["contact"],
+            gender=data["gender"],
+            dob=data["dob"],
+            category=data["category"],
+            blood_group=data["blood_group"]
             # roles = data["roles"]
         )  # adjust the fields according to your User class
         db.session.add(user)
         db.session.commit()
         return redirect(url_for("users.routes.user_list"))
-    return render_template("user/user_add.html", form=form)
+    return render_template("user_add.html", form=form)
 
 
-@user.route("/users/edit/<int:user_id>", methods=["GET", "POST"])
+@user.route("/edit/<int:user_id>", methods=["GET", "POST"])
 @login_required
 # @roles_required('admin')
 def edit_user(user_id):
@@ -60,7 +62,7 @@ def edit_user(user_id):
         form.populate_obj(user)
         db.session.commit()
         return redirect(url_for("users.routes.user_list"))
-    return render_template("user/user_edit.html", form=form, user=user)
+    return render_template("user_edit.html", form=form, user=user)
 
 
 @user.route("/edit_profile", methods=["GET", "POST"])
@@ -77,7 +79,7 @@ def edit_profile():
     return render_template("edit_profile.html", form=form)
 
 
-@user.route("/users/delete/<int:user_id>", methods=["GET", "POST"])
+@user.route("/delete/<int:user_id>", methods=["GET", "POST"])
 @login_required
 # @roles_required('admin')
 def delete_user(user_id):
@@ -89,4 +91,4 @@ def delete_user(user_id):
         db.session.delete(user)
         db.session.commit()
         return redirect(url_for("users.routes.user_list"))
-    return render_template("user/user_delete.html", user=user)
+    return render_template("user_delete.html", user=user)
