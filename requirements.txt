@@ -1,4 +1,5 @@
 Flask
+Flask-Caching
 Flask-Bootstrap
 Flask-Login
 Flask-RESTful
@@ -6,7 +7,13 @@ Flask-Security-Too
 Flask-SQLAlchemy
 Flask-Mail
 Flask-Migrate
+flask-marshmallow
 Flask-WTF
-Werkzeug==2.3.7
+Werkzeug
 python-dotenv
 djlint
+marshmallow_sqlalchemy
+requests
+celery
+Flask-Excel
+redis

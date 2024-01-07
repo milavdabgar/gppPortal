@@ -35,10 +35,11 @@ class Config:
 class LocalDevelopmentConfig(Config):
     DEBUG = True
     SQLALCHEMY_DATABASE_URI = "sqlite:///" + os.path.join(basedir, "GPPPortal.sqlite")
-    # CACHE_TYPE = "RedisCache"
-    # CACHE_REDIS_HOST = "localhost"
-    # CACHE_REDIS_PORT = 6379
-    # CACHE_REDIS_DB = 3
+    CACHE_TYPE = "RedisCache"
+    CACHE_REDIS_HOST = "localhost"
+    CACHE_REDIS_PORT = 6379
+    CACHE_REDIS_DB = 3
+    # CACHE_REDIS_URL = 'redis://localhost:6379/3'
     SECURITY_REGISTERABLE = True
     SECURITY_RECOVERABLE = True
     # SECURITY_CONFIRMABLE = True

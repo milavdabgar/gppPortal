@@ -1,0 +1,23 @@
+<!-- templates/edit_user.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit User</title>
+</head>
+<body>
+    <h2>Edit User</h2>
+    <form method="post" action="/edit_user/{{ user_id }}">
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.username.label }}<br>
+            {{ form.username(size=32) }}
+        </p>
+        <p>
+            {{ form.email.label }}<br>
+            {{ form.email(size=32) }}
+        </p>
+        <!-- Add other fields as needed -->
+        <p>{{ form.submit() }}</p>
+    </form>
+</body>
+</html>
