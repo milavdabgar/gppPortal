@@ -6,7 +6,7 @@ echo "This application has been created by Sayantan Das as a part of the MAD II 
 echo "This will start the Redis and Celery System for the backend Task Queueing and Caching." 
 echo "You can rerun this without any issues."
 echo "----------------------------------------------------------------------"
-if [ -d ".env" ];
+if [ -d ".venv" ];
 then
     echo "Enabling virtual env"
 else
@@ -15,7 +15,7 @@ else
 fi
 
 
-. .env/bin/activate
+. .venv/bin/activate
 
 
 sudo service redis-server start

@@ -6,7 +6,7 @@ echo "This application has been created by Sayantan Das as a part of the MAD II 
 echo "This will start the Mail-Hog Server for the testing of E-mail automation." 
 echo "You can rerun this without any issues."
 echo "----------------------------------------------------------------------"
-if [ -d ".env" ];
+if [ -d ".venv" ];
 then
     echo "Enabling virtual env"
 else

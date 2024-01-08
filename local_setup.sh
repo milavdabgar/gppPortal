@@ -5,16 +5,16 @@ echo "And then it will install all the required python libraries."
 echo "You can rerun this without any issues."
 echo "----------------------------------------------------------------------"
 
-if [ -d ".pyvenv" ];
+if [ -d ".venv" ];
 then
-    echo ".pyvenv folder exists. Installing using pip"
+    echo ".venv folder exists. Installing using pip"
 else
     echo "creating .pyvenv and install using pip"
-    python -m venv .pyvenv
+    python -m venv .venv
 fi
 
 # Activate virtual env
-. .pyvenv/bin/activate
+. .venv/bin/activate
 
 # Upgrade the PIP
 pip install --upgrade pip
