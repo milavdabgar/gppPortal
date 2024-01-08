@@ -1,5 +1,5 @@
 from app.extentions import db
-from app.modules.user import User
+from app.modules.user.models import User
 
 class Student(User):
     id = db.Column(db.Integer, db.ForeignKey("user.id"), primary_key=True)

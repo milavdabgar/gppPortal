@@ -6,10 +6,11 @@ from flask_security import Security
 from flask_mail import Mail
 from flask_marshmallow import Marshmallow
 from flask_caching import Cache
-from flask_moment import Moment
+# from flask_admin import Admin
+# from flask_moment import Moment
 from flask_babel import Babel
-from flask_jwt_extended import JWTManager
-from flask_cors import CORS
+# from flask_jwt_extended import JWTManager
+# from flask_cors import CORS
 # from flask_principal import Principal
 # from flask_session import Session
 # from flask_oauthlib.client import OAuth
@@ -26,10 +27,11 @@ mail = Mail()
 security = Security()
 ma = Marshmallow()
 cache = Cache()
-moment = Moment()
+# admin = Admin(name='Gpp', template_mode='bootstrap3')
+# moment = Moment()
 babel = Babel()
-jwt = JWTManager()
-cors = CORS()
+# jwt = JWTManager()
+# cors = CORS()
 # principal = Principal()
 # session = Session()
 # oauth = OAuth()

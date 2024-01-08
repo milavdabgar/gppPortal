@@ -39,6 +39,8 @@ class Config:
     CACHE_REDIS_PORT = 6379
     CACHE_REDIS_DB = 3    
     
+    FLASK_ADMIN_SWATCH = "cerulean"
+    
     # CACHE_REDIS_URL = 'redis://localhost:6379/3'
     
     # LOG_TO_STDOUT = os.environ.get('LOG_TO_STDOUT')

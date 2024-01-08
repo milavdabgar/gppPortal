@@ -1,15 +1,18 @@
 from flask import Flask
 from config import LocalDevelopmentConfig
-from .extentions import db, migrate, security, bootstrap, mail, ma, cache, moment, babel
+from .extentions import db, migrate, security, bootstrap, mail, ma, cache, babel
 from .modules.user import user as user_blueprint
 from .modules.main import main as main_blueprint
 from .modules.my_admin import my_admin as my_admin_blueprint
 from .modules.user.api import user_api
 from .modules.user.utils import initialize_db
 from .modules.user.models import User, Role
+# from .modules.faculty.models import Faculty
+from .models import StudyResource
 from flask_security import SQLAlchemyUserDatastore, SQLAlchemySessionUserDatastore
 import flask_excel as excel
 from flask_sse import sse
+from .admin import setup_admin
 
 
 def create_app():
@@ -29,8 +32,10 @@ def create_app():
 
     cache.init_app(app)
     excel.init_excel(app)
-    moment.init_app(app)
+    # admin.init_app(app)
+    # moment.init_app(app)
     babel.init_app(app)
+    setup_admin(app)
     with app.app_context():
         db.create_all()
         initialize_db(user_datastore)
