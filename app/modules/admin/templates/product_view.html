@@ -1,0 +1,16 @@
+{# {% extends 'base.html' %} #}
+{# {% extends 'base_admin.html' %} #}
+{# {% block styles %}
+    <link rel="stylesheet"
+          type="text/css"
+          href="{{ url_for('static', filename='styles/shop.css') }}">
+{% endblock %} #}
+{# {% extends 'bootstrap/base.html' %} #}
+
+{# {% block title %}Grocify: Product {{ product.name }}{% endblock %} #}
+{% block app_content %}
+    <h1>{{ product.name }}</h1>
+    <p>Description: {{ product.description }}</p>
+    <p>Price: {{ product.price }}</p>
+    <p>Category: {{ product.category }}</p>
+{% endblock %}
