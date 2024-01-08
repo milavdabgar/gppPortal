@@ -15,10 +15,10 @@ def home():
     return render_template("index.html")
 
 
-@app.get('/admin')
+@app.get('/my_admin')
 # @auth_required("token")
 # @roles_required("admin")
-def admin():
+def my_admin():
     return "Hello Admin"
 
 

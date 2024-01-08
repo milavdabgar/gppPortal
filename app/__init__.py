@@ -3,7 +3,7 @@ from config import LocalDevelopmentConfig
 from .extentions import db, migrate, security, bootstrap, mail, ma, cache, moment, babel
 from .modules.user import user as user_blueprint
 from .modules.main import main as main_blueprint
-from .modules.admin import admin as admin_blueprint
+from .modules.my_admin import my_admin as my_admin_blueprint
 from .modules.user.api import user_api
 from .modules.user.utils import initialize_db
 from .modules.user.models import User, Role
@@ -38,7 +38,7 @@ def create_app():
 
     # Register Blueprints
     app.register_blueprint(main_blueprint)
-    app.register_blueprint(admin_blueprint, url_prefix='/admin', user_datastore=user_datastore)
+    app.register_blueprint(my_admin_blueprint, url_prefix='/my_admin', user_datastore=user_datastore)
     app.register_blueprint(user_blueprint, url_prefix='/user', user_datastore=user_datastore)
     app.register_blueprint(user_api, user_datastore=user_datastore)
 

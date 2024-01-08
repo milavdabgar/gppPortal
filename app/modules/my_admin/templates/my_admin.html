@@ -1,0 +1,9 @@
+{% extends "base-my_admin.html" %}
+{% block app_content %}
+    <h1>Welcome to GPP my_admin</h1>
+    <ul>
+        <li>
+            <a href="{{ url_for("my_admin.display_users") }}">User Management</a>
+        </li>
+    </ul>
+{% endblock %}

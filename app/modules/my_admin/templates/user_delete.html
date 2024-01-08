@@ -1,4 +1,4 @@
-{% extends 'base_admin.html' %}
+{% extends 'base_my_admin.html' %}
 {% block styles %}
     {{ super() }}
 {% endblock %}
@@ -7,7 +7,7 @@
     <h1>Delete User</h1>
     <p>Are you sure you want to delete the User "{{ username }}"?</p>
     <form method="POST"
-          action="{{ url_for('admin.delete', user_id=user.id) }}">
+          action="{{ url_for('my_admin.delete', user_id=user.id) }}">
         <button type="submit">Delete</button>
     </form>
 {% endblock %}

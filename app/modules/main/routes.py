@@ -8,5 +8,5 @@ from . import main
 @login_required
 def index():
     if "admin" in current_user.roles:
-        return redirect(url_for("admin.index"))
+        return redirect(url_for("my_admin.index"))
     return render_template("index.html")

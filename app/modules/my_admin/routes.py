@@ -1,16 +1,16 @@
 from flask import render_template, redirect, url_for, request, current_app
 from flask_security import login_required, hash_password
 
-from . import admin
+from . import my_admin
 from .forms import EditUserForm, CreateUserForm
 from app.modules.user.models import User, db
 
 
 # Register routes and handlers for the user blueprint
-@admin.route("/")
+@my_admin.route("/")
 def index():
-    return render_template("admin.html")
-@admin.route("/display")
+    return render_template("my_admin.html")
+@my_admin.route("/display")
 def display_users():
     # if not current_user.has_role("admin"):
     #     return "You don't have permission to view this page", 403
@@ -18,7 +18,7 @@ def display_users():
     return render_template("user_list.html", users=users)
 
 
-@admin.route("/show/<int:user_id>")
+@my_admin.route("/show/<int:user_id>")
 @login_required
 def show_user(user_id):
     user = current_app.user_datastore.find_user(id=user_id)
@@ -27,7 +27,7 @@ def show_user(user_id):
     return {"message": "User not found"}, 404
 
 
-@admin.route("/add", methods=["GET", "POST"])
+@my_admin.route("/add", methods=["GET", "POST"])
 @login_required
 # @roles_required('admin')
 def add_user():
@@ -42,11 +42,11 @@ def add_user():
             password=hash_password(data['password'])
         )
         db.session.commit()
-        return redirect(url_for("admin.display_users", user_id=user.id))
+        return redirect(url_for("my_admin.display_users", user_id=user.id))
     return render_template("user_add.html", form=form)
 
 
-@admin.route("/edit/<int:user_id>", methods=["GET", "POST"])
+@my_admin.route("/edit/<int:user_id>", methods=["GET", "POST"])
 @login_required
 # @roles_required('admin')
 def edit_user(user_id):
@@ -57,10 +57,10 @@ def edit_user(user_id):
     if request.method == "POST" and form.validate():
         form.populate_obj(user)
         db.session.commit()
-        return redirect(url_for("admin.display_users", user_id=user.id))
+        return redirect(url_for("my_admin.display_users", user_id=user.id))
     return render_template("user_edit.html", form=form, user=user)
 
-@admin.route("/delete/<int:user_id>", methods=["GET", "POST"])
+@my_admin.route("/delete/<int:user_id>", methods=["GET", "POST"])
 @login_required
 # @roles_required('admin')
 def delete_user(user_id):
@@ -68,5 +68,5 @@ def delete_user(user_id):
     if user:
         db.session.delete(user)
         db.session.commit()
-        return redirect(url_for("admin.display_users", user_id=user.id))
+        return redirect(url_for("my_admin.display_users", user_id=user.id))
     return render_template("user_delete.html", user=user)
