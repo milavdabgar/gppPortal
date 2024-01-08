@@ -38,7 +38,9 @@
                     {% else %}
                         <li>
                             {# <a href="{{ url_for('main.user', username=current_user.username) }}">User</a> #}
-                            {# <a href="{{ url_for("user.edit_profile") }}">{{ 'User Profile' }}</a> #}
+                            <a href="{{ url_for("user.edit_user", user_id=current_user.id) }}">{{ 'User Edit' }}</a>
+                            <a href="{{ url_for("user.show_user", user_id=current_user.id) }}">{{ 'User View' }}</a>
+                            {# <a href="{{ url_for("user.edit_profile") }}">{{ 'Profile Edit' }}</a> #}
                             <a href="{{ url_for("security.change_password") }}">{{ 'Update Password' }}</a>
                         </li>
                         <li>

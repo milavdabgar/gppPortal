@@ -28,12 +28,19 @@ class UserResource(Resource):
 
         if User.query.filter_by(username=data['username']).first():
             return {"message": "Username already exists"}, 400
+        
+        #creating user by security user_datastore
         user_datastore = current_app.user_datastore
         user = user_datastore.create_user(
             username=data['username'],
             email=data['email'],
             password=generate_password_hash(data['password'])
         )
+        # #creating user by database access
+        # data['password'] = generate_password_hash(data['password'])
+        # user = User(**data)
+        # db.session.add(user)
+        
         db.session.commit()
 
         return user_schema.dump(user), 201
