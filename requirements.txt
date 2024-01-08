@@ -47,4 +47,4 @@ Flask-Cors
 # Flask-Assets
 # Flask-FlatPages
 # Flask-GraphQL
-
+# flask_babelex
