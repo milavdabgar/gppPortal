@@ -3,6 +3,7 @@ from config import LocalDevelopmentConfig
 from .extentions import db, migrate, security, bootstrap, mail, ma, cache, moment, babel
 from .modules.user import user as user_blueprint
 from .modules.main import main as main_blueprint
+from .modules.admin import admin as admin_blueprint
 from .modules.user.api import user_api
 from .modules.user.utils import initialize_db
 from .modules.user.models import User, Role
@@ -17,9 +18,9 @@ def create_app():
     db.init_app(app)
     ma.init_app(app)
     migrate.init_app(app, db)
-    
+
     app.app_context().push()
-    
+
     mail.init_app(app)
     bootstrap.init_app(app)
     user_datastore = SQLAlchemyUserDatastore(db, User, Role)
@@ -37,12 +38,11 @@ def create_app():
 
     # Register Blueprints
     app.register_blueprint(main_blueprint)
-    app.register_blueprint(
-        user_blueprint, url_prefix="/user", user_datastore=user_datastore
-    )
-    app.register_blueprint(user_api, url_prefix="/api", user_datastore=user_datastore)
-    
+    app.register_blueprint(admin_blueprint, url_prefix='/admin', user_datastore=user_datastore)
+    app.register_blueprint(user_blueprint, url_prefix='/user', user_datastore=user_datastore)
+    app.register_blueprint(user_api, user_datastore=user_datastore)
+
     # This is for streaming
-    app.register_blueprint(sse, url_prefix='/stream')
+    app.register_blueprint(sse, url_prefix="/stream")
 
     return app

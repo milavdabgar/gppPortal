@@ -27,7 +27,7 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
                     <li>
-                        <a href="{{ url_for('main.index') }}">{{ 'Explore' }}</a>
+                        <a href="{{ url_for('admin.display_users') }}">User List</a>
                     </li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
@@ -37,9 +37,7 @@
                         </li>
                     {% else %}
                         <li>
-                            <a href="{{ url_for('user.display_users') }}">User</a>
                             {# <a href="{{ url_for(user.edit_user, user_id=current_user.id) }}">{{ 'User Edit' }}</a> #}
-                            <a href="{{ url_for('user.show_user', user_id=current_user.id) }}">{{ 'User View' }}</a>
                             <a href="{{ url_for('security.change_password') }}">{{ 'Update Password' }}</a>
                         </li>
                         <li>

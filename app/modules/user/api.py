@@ -1,7 +1,6 @@
 from flask import Blueprint, request, current_app
 from flask_restful import Resource, Api
-# from flask_security import user_datastore
-from werkzeug.security import generate_password_hash
+from flask_security import hash_password
 from marshmallow import ValidationError
 from .models import User
 from .schemas import UserSchema
@@ -34,7 +33,7 @@ class UserResource(Resource):
         user = user_datastore.create_user(
             username=data['username'],
             email=data['email'],
-            password=generate_password_hash(data['password'])
+            password=hash_password(data['password'])
         )
         # #creating user by database access
         # data['password'] = generate_password_hash(data['password'])
@@ -74,4 +73,4 @@ class UserResource(Resource):
             db.session.rollback()
             return {"message": str(e)}, 500
 
-api.add_resource(UserResource, "/users/<int:user_id>")
+api.add_resource(UserResource, "/api/users/<int:user_id>")

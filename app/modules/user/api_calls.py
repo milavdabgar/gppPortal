@@ -18,8 +18,9 @@ def edit_user(user_id):
             user = response.json()
             form.username.data = user.get('username')
             form.email.data = user.get('email')
+            form.first_name.data = user.get('first_name')
             # Populate other fields as necessary
-            return render_template('edit_user.html', form=form, user_id=user_id)
+            return render_template('edit_profile.html', form=form, user_id=user_id)
         else:
             return 'User not found.'
 

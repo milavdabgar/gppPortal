@@ -5,14 +5,8 @@ from . import main
 
 
 @main.route("/", methods=["GET", "POST"])
-@main.route("/index", methods=["GET", "POST"])
 @login_required
 def index():
     if "admin" in current_user.roles:
-        return redirect(url_for("main.admin"))
+        return redirect(url_for("admin.index"))
     return render_template("index.html")
-
-@main.route('/admin')
-@roles_required("admin")
-def admin():
-    return render_template("admin.html")
