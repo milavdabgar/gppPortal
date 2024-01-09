@@ -42,7 +42,8 @@ class StudyResourceAdmin(ModelView):
 
 
 def setup_admin(app):
-    admin = Admin(app, name='GPP Admin', template_mode='bootstrap3')
+    # admin = Admin(app, name='GPP Admin', template_mode='bootstrap3')
+    admin = Admin(app, name='GPP FlaskAdmin', template_mode='bootstrap3', url='/flask-admin', endpoint='flask-admin')
     
     admin.add_view(ModelView(User, db.session, name='User Admin', endpoint='user_admin', category="Team"))
     admin.add_view(ModelView(Role, db.session, category="Team"))
